@@ -1,8 +1,6 @@
-`{r, echo = FALSE} knitr::opts_chunk$set(   collapse = TRUE,   comment = "#>",   fig.path = "README-" )`
-
 <a id="devex-badge" rel="Exploration" href="https://github.com/BCDevExchange/assets/blob/master/README.md"><img alt="Being designed and built, but in the lab. May change, disappear, or be buggy." style="border-width:0" src="https://assets.bcdevexchange.org/images/badges/exploration.svg" title="Being designed and built, but in the lab. May change, disappear, or be buggy." /></a>
 
-British Columbia River Elevation Profiles
+River Elevation Profiles (British Columbia)
 ========================
 
 ### Usage
