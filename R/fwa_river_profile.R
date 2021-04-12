@@ -19,7 +19,7 @@ library(tidyverse)
 fwa_river_profile <- function(
   rivername = "Bowron River",
   pt_per_km = 1, 
-  check_tiles = F){
+  check_tiles = T){
 
   # FRESHWATER ATLAS 
   
