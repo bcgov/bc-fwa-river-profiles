@@ -9,6 +9,8 @@ Simply input a river name from the Freshwater Atlas of BC, and the script will d
 
 ### Usage
 
+Step 1: Just type the name of the river! 
+
 ``` r
 library(stars)
 library(bcmaps)
