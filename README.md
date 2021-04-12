@@ -3,20 +3,59 @@
 River Elevation Profiles (British Columbia)
 ========================
 
+### Overview
+
+Simply input a river name from the Freshwater Atlas of BC, and the script will download the DEM, sample along that river, and return an `sf` object with elevation values and distances along the river. 
+
 ### Usage
 
-Note: Must have your own DEM (e.g. TRIM, SRTM, ALOS DSM, ASTER GDEM, etc.). 
+``` r
+library(stars)
+library(bcmaps)
+library(bcdata)
+library(sf)
+library(tidyverse)
 
-There is currently one script that maps the elevation profile of a river based on the river name.
+rivername = "Willow River"
+dat <- fwa_river_profile(rivername = rivername, pt_per_km = 4)  
+print(dat)
+#> Simple feature collection with 882 features and 4 fields
+#> Geometry type: POINT
+#> Dimension:     XY
+#> Bounding box:  xmin: -122.5083 ymin: 53.10169 xmax: -121.5686 ymax: 54.08714
+#> Geodetic CRS:  NAD83
+#> First 10 features:
+#>    elevation                          x dist_seg_m dist_tot_m id
+#> 1        573 POINT (-122.5083 54.08655)     0.0000     0.0000  1
+#> 2        574 POINT (-122.5045 54.08686)   247.2377   247.2377  2
+#> 3        578 POINT (-122.5007 54.08714)   250.7904   498.0282  3
+#> 4        573  POINT (-122.4981 54.0861)   208.3280   706.3562  4
+#> 5        574 POINT (-122.4975 54.08392)   245.8678   952.2240  5
+#> 6        575 POINT (-122.4943 54.08434)   210.5140  1162.7380  6
+#> 7        576 POINT (-122.4912 54.08468)   211.0918  1373.8298  7
+#> 8        575 POINT (-122.4907 54.08264)   229.8827  1603.7125  8
+#> 9        575 POINT (-122.4923 54.08067)   244.5614  1848.2739  9
+#> 10       578 POINT (-122.4919 54.07867)   224.8936  2073.1675 10
 
--   R\1_Script.R
+dat <- dat %>% 
+  mutate(slope = (
+    (lag(elevation,2)-lead(elevation,2))/
+    (lag(dist_tot_m,2)-lead(dist_tot_m,2)))*100) 
 
-The goal is to develop this into an R package. 
-
+dat %>% 
+  ggplot() + 
+    geom_point(aes(dist_tot_m/1000, elevation, color = slope), show.legend = T) + 
+    scale_color_gradientn(colours = rev(RColorBrewer::brewer.pal(9, "Spectral")), 
+                          guide = guide_colourbar(barheight = 10, frame.colour = "black", ticks.colour = "black")) +
+    labs(x = "Distance (km)", y = "Elevation (m)", title = rivername, color = "Slope (%)") + 
+    theme_bw() +
+    theme(aspect.ratio = 0.5)
+```
+![](https://i.imgur.com/DaO4sbR.png)
 
 ### Project Status
 
-In development. 
+Functional, but in development!
 
 ### Getting Help or Reporting an Issue
 
