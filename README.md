@@ -1,6 +1,6 @@
 ![img](https://img.shields.io/badge/Lifecycle-Experimental-339999)
 
-River Elevation Profiles (British Columbia)
+River Profiles using the Freshwater Atlas of British Columbia
 ========================
 
 ### Overview
