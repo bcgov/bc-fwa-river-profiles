@@ -10,15 +10,16 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and limitations under the License.
 
-
-
-library(bcmaps)
-library(tidyverse)
-library(sf)
 library(stars)
+library(bcmaps)
+library(bcdata)
+library(sf)
+library(tidyverse)
 
-
-fwa_river_profile <- function(rivername = "Bowron River", pt_per_km = 1, check_tiles = F){
+fwa_river_profile <- function(
+  rivername = "Bowron River",
+  pt_per_km = 1, 
+  check_tiles = F){
 
   # FRESHWATER ATLAS 
   
@@ -34,20 +35,20 @@ fwa_river_profile <- function(rivername = "Bowron River", pt_per_km = 1, check_t
     my_stream_network <- bcdc_query_geodata("freshwater-atlas-stream-network") %>%
       filter(FWA_WATERSHED_CODE == my_river_code) %>%
       collect()
-    
-    # Combine River Segments
+
+    # GET MAINSTEM ONLY
     my_stream_network <-
       my_stream_network %>%
-      st_cast("MULTILINESTRING") %>%
-      st_combine() %>% 
-      st_cast("LINESTRING") %>% 
-      st_as_sf() %>% 
-      st_zm();
-      
+      filter(BLUE_LINE_KEY == unique(my_stream_network$WATERSHED_KEY)) %>% st_as_sf()
+    
+    # Combine River Segments
+    my_stream_network <- st_cast(st_line_merge(
+      st_union(st_cast(my_stream_network, "MULTILINESTRING"))), "LINESTRING") %>% st_zm() 
+    
   # SAMPLE ELEVATION AT POINTS 
     
     # GET DEM 
-    dem <- cded_stars(my_stream_network, check_tiles = check_tiles) 
+    dem <- cded_stars(my_stream_network, check_tiles = check_tiles)
 
     # Make Sample Points  
     my_points <- my_stream_network %>% 
@@ -59,11 +60,10 @@ fwa_river_profile <- function(rivername = "Bowron River", pt_per_km = 1, check_t
     # Extract DEM Values at Points
     my_points_dem <- dem %>% 
       st_extract(my_points)  %>% 
-      arrange(elevation) %>% 
       mutate(dist_seg_m = replace_na(as.numeric(st_distance(x, lag(x), by_element = TRUE)),0), 
-             dist_tot_m = cumsum(dist_seg_m))
+             dist_tot_m = cumsum(dist_seg_m),
+             id = row_number(),
+             river_name = rivername)
     
     return(my_points_dem)
     }
-      
-
