@@ -1,18 +1,15 @@
-Package: bcProfileRR
-Title: What the Package Does (One Line, Title Case)
+Package: bcRiverProfileR
+Title: Extract elevation values for a river. 
 Version: 0.0.0.9000
 Authors@R: 
-    c(person(given = "First",
-             family = "Last",
+    c(person(given = "Alexandre",
+             family = "Bevington",
              role = c("aut", "cre"),
-             email = "first.last@example.com"),
+             email = "alexandre.bevington@gov.bc.ca"),
       person(given = "Province of British Columbia",
              role = "cph"))
-Description: What the package does (one paragraph).
+Description: Extract elevation values for a river. 
 Imports: stars,bcmaps,bcdata,sf,tidyverse
 License: Apache License (== 2.0) | file LICENSE
 Encoding: UTF-8
 LazyData: true
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
-Suggests: 
