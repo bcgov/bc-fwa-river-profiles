@@ -9,6 +9,7 @@ Authors@R:
       person(given = "Province of British Columbia",
              role = "cph"))
 Description: What the package does (one paragraph).
+Imports: stars,bcmaps,bcdata,sf,tidyverse
 License: Apache License (== 2.0) | file LICENSE
 Encoding: UTF-8
 LazyData: true
