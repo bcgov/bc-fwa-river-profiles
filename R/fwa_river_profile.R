@@ -14,12 +14,6 @@
 
 #' fwa_river_profile()
 
-library(stars)
-library(bcmaps)
-library(bcdata)
-library(sf)
-library(tidyverse)
-
 fwa_river_profile <- function(
   rivername = "Bowron River",
   pt_per_km = 1,
