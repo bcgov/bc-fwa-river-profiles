@@ -1,6 +1,6 @@
 ![img](https://img.shields.io/badge/Lifecycle-Experimental-339999)
 
-Automatic river gradient profile using the Freshwater Atlas of British Columbia
+River profile using the Freshwater Atlas of British Columbia
 ========================
 
 ### Overview
